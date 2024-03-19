@@ -54,8 +54,8 @@
     config.nix.package # Per https://discourse.nixos.org/t/how-to-upgrade-nix-on-macos-with-home-manager/25147/4
 
     # Programming Languages and Environments
-    python311
-    haskell.compiler.ghc94 # ghc-9.4.5 (lts-21.3)
+    python313
+    # haskell.compiler.ghc94 # ghc-9.4.5 (lts-21.3)
     nodejs_21
     nodePackages.pnpm
 
@@ -89,6 +89,17 @@
     # GUI Apps
 
     # Other
+
+    # Mac OS Setup - Scarf Deps - https://www.notion.so/scarf/Mac-OS-setup-...
+    # darwin.libiconv
+    # libpqxx # - FIXME using homebrew for now
+    # pcre - FIXME using homebrew for now
+    # rdkafka - FIXME using homebrew for now
+    # rocksdb
+    # openssl_3_1
+    # tmux
+    curlWithGnuTls
+    wget
   ];
 
   ##### Mac-Specific Options ###################################################
@@ -105,48 +116,65 @@
   homebrew = {
     enable = true; # NOTE: Doesn't install homebrew. See https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.enable
     brews = [
-      /*
-        ########## Examples ########################################################################
-        # `brew install`
-        "imagemagick"
-
-        # `brew install --with-rmtp`, `brew services restart` on version changes
-        {
-          name = "denji/nginx/nginx-full";
-          args = [ "with-rmtp" ];
-          restart_service = "changed";
-        }
-
-        # `brew install`, always `brew services restart`, `brew link`, `brew unlink mysql` (if it is installed)
-        {
-          name = "mysql@5.6";
-          restart_service = true;
-          link = true;
-          conflicts_with = [ "mysql" ];
-        }
-      */
+      {
+        name = "libiconv";
+      }
+      {
+        name = "libpq";
+      }
+      {
+        name = "librdkafka";
+      }
+      {
+        name = "openssl";
+      }
+      {
+        name = "pcre";
+      }
+      {
+        name = "postgresql@11";
+      }
+      {
+        name = "rocksdb";
+      }
+      {
+        name = "tmux";
+      }
     ];
     casks = [
       # https://stackoverflow.com/a/44719239 https://stackoverflow.com/a/49719638
       "docker" # https://formulae.brew.sh/cask/docker
-
-      /*
-        ########## Examples ########################################################################
-        # `brew install --cask`
-        "google-chrome"
-
-        # `brew install --cask --appdir=~/my-apps/Applications`
-        {
-          name = "firefox";
-          args = { appdir = "~/my-apps/Applications"; };
-        }
-
-        # always upgrade auto-updated or unversioned cask to latest version even if already installed
-        {
-          name = "opera";
-          greedy = true;
-        }
-      */
     ];
   };
+
+  ## Postgres Setup
+
+  # # From https://github.com/LnL7/nix-darwin/issues/339#issuecomment-1765304524
+  # system.activationScripts.preActivation = {
+  #   enable = true;
+  #   text = ''
+  #     if [ ! -d "/var/lib/postgresql/" ]; then
+  #       echo "creating PostgreSQL data directory..."
+  #       sudo mkdir -m 750 -p /var/lib/postgresql/
+  #       chown -R hkscarf:staff /var/lib/postgresql/
+  #     fi
+  #   '';
+  # };
+
+  # services.postgresql = {
+  #   enable = true;
+  #   package = pkgs.postgresql_12;
+  #   initdbArgs = [
+  #     "-U hkscarf"
+  #     "--pgdata=/var/lib/postgresql/12"
+  #     "--encoding=UTF8"
+  #     "--auth=trust"
+  #     # "--no-locale"
+  #   ];
+  # };
+
+  # launchd.user.agents.postgresql.serviceConfig = {
+  #   StandardErrorPath = "/tmp/postgres.error.log";
+  #   StandardOutPath = "/tmp/postgres.log";
+  # };
 }

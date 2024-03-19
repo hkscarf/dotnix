@@ -89,14 +89,14 @@ Follow the [Zero-to-Nix Quickstart Guide](https://zero-to-nix.com/start/install)
 ```bash
 $ mkdir -p ~/.config
 $ cd ~/.config
-$ git clone git@github.com:hkailahi/dotnix.git
+$ git clone https://github.com/hkscarf/dotnix
 ```
 
 3. Apply system configurations
 
 ```bash
 $ cd ~/.config/dotnix/
-$ ./bin/apply-system.sh
+$ ./bin/init-system.sh
 ```
 
 ### Modifying the System Configuration
@@ -146,14 +146,7 @@ Using `~/.config/dotnix` instead of `~/.config/nixpkgs`
 $ mkdir -p ~/.config/dotnix
 ```
 
-* Setup up flake.nix and home.nix
-
-* Run `nix run .#homeConfigurations.hkailahi.activationPackage` to install home-manager and setup first configuration
-
-After this, `home-manager switch --flake .#hkailahi` can be run to switch home profile (aka rebuild home env via flake.nix and home.nix)
-- This is just a shorthand for above `nix run .#homeConf....`
-
-NOTE: The `.` in `.#hkailahi` is the <flake-uri>. Since I'm running from `dotnix` repo, `.` works, otherwise `~/.config/dotnix` or similar prob
+* Setup up `flake.nix`, `darwin.nix`, and `home.nix`
 
 Per https://nix-community.github.io/home-manager/index.html#ch-nix-flakes
 > The flake inputs are not upgraded automatically when switching. The analogy to the command home-manager --update ... is nix flake update.
@@ -166,4 +159,5 @@ Per https://nix-community.github.io/home-manager/index.html#ch-nix-flakes
 ## Resources
 
 Declarative macOS Configuration - Using `nix-darwin` And `home-manager`: https://xyno.space/post/nix-darwin-introduction
+
 Setting up Nix on macOS: https://davi.sh/til/nix/nix-macos-setup/

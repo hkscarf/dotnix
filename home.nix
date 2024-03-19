@@ -27,8 +27,14 @@
         . "${pkgs.bash-completion}/etc/profile.d/bash_completion.sh"
       fi
 
-      export PATH="/run/current-system/sw/bin:$PATH"
-      export PATH="/etc/profiles/per-user/hkscarf/bin:$PATH"
+      # export PATH="/run/current-system/sw/bin:$PATH"
+      # export PATH="/etc/profiles/per-user/hkscarf/bin:$PATH"
+
+      export PATH="/usr/local/opt/postgresql@11/bin:$PATH"
+      export LDFLAGS="-L/usr/local/opt/postgresql@11/lib"
+      export CPPFLAGS="-I/usr/local/opt/postgresql@11/include"
+
+      export PATH="$HOME/.ghcup/bin:$PATH"
     '';
 
     ## Per https://github.com/nix-community/home-manager/blob/bb4b25b302dbf0f527f190461b080b5262871756/modules/programs/bash.nix#L86
