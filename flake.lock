@@ -8,11 +8,11 @@
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
-        "lastModified": 1705853027,
-        "narHash": "sha256-Oz6K7aGvUWYv4U7rouc5vtZ9WTv7L5vkgRrtziNyquY=",
+        "lastModified": 1710819219,
+        "narHash": "sha256-SXTz20R4ZDXwr3iPxXJXQTftHmZwOPzSpIK7bIIculA=",
         "owner": "cachix",
         "repo": "devenv",
-        "rev": "aa237a7b5605b4f58714762d1f56627dfb1b3dfa",
+        "rev": "169d2cbce65977289f2e0e863a4e8f42f9ce98af",
         "type": "github"
       },
       "original": {
@@ -221,6 +221,22 @@
         "type": "indirect"
       }
     },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1653936696,
+        "narHash": "sha256-M6bJShji9AIDZ7Kh7CPwPBPb/T7RiVev2PAcOi4fxDQ=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "ce6aa13369b667ac2542593170993504932eb836",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "22.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": [
@@ -254,7 +270,8 @@
         "devenv": "devenv",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_2",
+        "tie": "tie"
       }
     },
     "systems": {
@@ -269,6 +286,25 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tie": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1691187707,
+        "narHash": "sha256-ewVTfpBdkhDXUNpIJujA/lJU+MXJQPLEt+9dn7P9sZs=",
+        "owner": "piq9117",
+        "repo": "tie",
+        "rev": "60c6aeb5a1dfc338b7ae1a9d95d58d17caa44c53",
+        "type": "github"
+      },
+      "original": {
+        "owner": "piq9117",
+        "ref": "piq9117/flake.nix",
+        "repo": "tie",
         "type": "github"
       }
     }

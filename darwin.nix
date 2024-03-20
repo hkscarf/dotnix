@@ -1,8 +1,19 @@
 { pkgs, lib, config, ... }:
 {
+  ##################################################################################################
+  ### Configuring Nix + Nix-Darwin
+  ##################################################################################################
+
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
   nix.package = pkgs.nixVersions.nix_2_19; # Per https://discourse.nixos.org/t/how-to-upgrade-nix-on-macos-with-home-manager/25147/4
+
+  # The platform the configuration will be used on.
+  nixpkgs.hostPlatform = "x86_64-darwin";
+
+  # Used for backwards compatibility, please read the changelog before changing.
+  # $ darwin-rebuild changelog
+  system.stateVersion = 4;
 
   # Necessary for using flakes on this system.
   nix.settings = {
@@ -11,45 +22,44 @@
     "build-users-group" = "nixbld";
     "extra-nix-path" = "nixpkgs=flake:nixpkgs";
     "experimental-features" = "nix-command flakes repl-flake";
+    "extra-experimental-features" = "nix-command flakes repl-flake";
     "auto-optimise-store" = true;
     "max-jobs" = "auto";
     "upgrade-nix-store-path-url" = "https://install.determinate.systems/nix-upgrade/stable/universal";
 
-
     # Manual Additions
+    ## FIXME warning: ignoring untrusted substituter <blah>, you are not a trusted user.
+    ## Run `man nix.conf` for more information on the `substituters` configuration option.
     "extra-trusted-substituters" = [
       "https://cache.nixos.org/"
-      "https://nix-community.cachix.org"
-      "https://devenv.cachix.org"
+      # "https://iohk.cachix.org"
+      # "https://nix-community.cachix.org"
+      # "https://scarf.cachix.org"
     ];
     "extra-trusted-public-keys" = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+      # "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
-
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "vscode"
-  ];
-
-  # Create /etc/zshrc | /etc/bashrc that loads the nix-darwin environment.
-  # FIXME `nix-darwin` can't set default shell
-  programs.bash.enable = true;
-
-  # Used for backwards compatibility, please read the changelog before changing.
-  # $ darwin-rebuild changelog
-  system.stateVersion = 4;
-
-  # The platform the configuration will be used on.
-  nixpkgs.hostPlatform = "x86_64-darwin";
 
   users.users.hkscarf = {
     name = "hkscarf";
     home = "/Users/hkscarf";
   };
 
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
+  # Create /etc/zshrc | /etc/bashrc that loads the nix-darwin environment.
+  # FIXME `nix-darwin` can't set default shell
+  programs.bash.enable = true;
+
+  ##################################################################################################
+  ### Package Management (via nixpkgs and homebrew)
+  ##################################################################################################
+
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "raycast"
+    "vscode"
+  ];
+
+  # Provided by nixpkgs
   environment.systemPackages = with pkgs; [
     config.nix.package # Per https://discourse.nixos.org/t/how-to-upgrade-nix-on-macos-with-home-manager/25147/4
 
@@ -87,6 +97,7 @@
     vulnix
 
     # GUI Apps
+    raycast
 
     # Other
 
@@ -102,17 +113,7 @@
     wget
   ];
 
-  ##### Mac-Specific Options ###################################################
-
-  system.defaults.NSGlobalDomain."com.apple.swipescrolldirection" = false;
-
-  system.keyboard = {
-    enableKeyMapping = true;
-    swapLeftCommandAndLeftAlt = true;
-  };
-
-  ##### Nix-Darwin Packages + Services + Options ###################################################
-
+  # Provided by nix-darwin.
   homebrew = {
     enable = true; # NOTE: Doesn't install homebrew. See https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.enable
     brews = [
@@ -147,34 +148,22 @@
     ];
   };
 
-  ## Postgres Setup
+  ##################################################################################################
+  ### Mac OS Configurations
+  ##################################################################################################
 
-  # # From https://github.com/LnL7/nix-darwin/issues/339#issuecomment-1765304524
-  # system.activationScripts.preActivation = {
-  #   enable = true;
-  #   text = ''
-  #     if [ ! -d "/var/lib/postgresql/" ]; then
-  #       echo "creating PostgreSQL data directory..."
-  #       sudo mkdir -m 750 -p /var/lib/postgresql/
-  #       chown -R hkscarf:staff /var/lib/postgresql/
-  #     fi
-  #   '';
-  # };
+  system.defaults.NSGlobalDomain."com.apple.swipescrolldirection" = false;
 
-  # services.postgresql = {
-  #   enable = true;
-  #   package = pkgs.postgresql_12;
-  #   initdbArgs = [
-  #     "-U hkscarf"
-  #     "--pgdata=/var/lib/postgresql/12"
-  #     "--encoding=UTF8"
-  #     "--auth=trust"
-  #     # "--no-locale"
-  #   ];
-  # };
+  system.keyboard = {
+    enableKeyMapping = true;
+    swapLeftCommandAndLeftAlt = true;
+  };
 
-  # launchd.user.agents.postgresql.serviceConfig = {
-  #   StandardErrorPath = "/tmp/postgres.error.log";
-  #   StandardOutPath = "/tmp/postgres.log";
-  # };
+  ##################################################################################################
+  ### Configurable Darwin Services + Packages
+  ##################################################################################################
+
+  ## See available configuration options at https://daiderd.com/nix-darwin/manual/index.html
+
+  # TBD
 }

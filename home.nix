@@ -1,7 +1,15 @@
 { pkgs, ... }:
 {
+  ##################################################################################################
+  ### Configuring Nix + Home-Manager
+  ##################################################################################################
+
   home.stateVersion = "22.11";
   programs.home-manager.enable = true;
+
+  ##################################################################################################
+  ### Env Vars
+  ##################################################################################################
 
   home.sessionVariables = {
     EDITOR = "code";
@@ -10,9 +18,16 @@
     NIX_CONF_DIR = "$HOME/.config/nix";
   };
 
-  ##### Home-Manager Configurable Packages ###############################################################
+  ##################################################################################################
+  ### Configurable Home-Manager Services + Packages (alphabetical)
+  ##################################################################################################
+
+  ## See available configuration options at either:
+  ## * Search - https://home-manager-options.extranix.com
+  ## * Manual - https://nix-community.github.io/home-manager/options.xhtml
+
+  programs.bash.enable = true;
   programs.bash = {
-    enable = true;
     profileExtra = builtins.readFile ./bash_profile;
     initExtra = builtins.readFile ./bashrc;
 
@@ -63,40 +78,30 @@
     nix-direnv.enable = true;
   };
 
-  programs.eza = {
-    enable = true;
-  };
+  programs.eza.enable = true;
 
+  programs.fzf.enable = true;
   programs.fzf = {
-    enable = true;
     enableBashIntegration = true;
   };
 
+  programs.git.enable = true;
   programs.git = {
-    enable = true;
     includes = [{ path = "~/.config/nixpkgs/gitconfig"; }];
   };
 
   programs.jq.enable = true;
 
   # Settings adapted from https://github.com/the-argus/nixsys/blob/74ee1dd0ac503e241581ee8c3d7b719fa4305e1e/user/primary/lf.nix#L46
+  programs.lf.enable = true;
   programs.lf = {
-    enable = true;
     settings = {
       drawbox = true;
       dirfirst = true;
       icons = true;
       ignorecase = true;
       preview = true;
-      # shell = "${pkgs.dash}/bin/dash";
-      # shellopts = "-eu";
-      # tabstop = 2;
-      # info = "size";
     };
-    # previewer = {
-    #   source = sandbox;
-    #   keybinding = "i";
-    # };
   };
 
   programs.neovim.enable = true;
@@ -121,8 +126,8 @@
     settings = { };
   };
 
+  programs.vscode.enable = true;
   programs.vscode = {
-    enable = true;
     enableUpdateCheck = false;
 
     userSettings = {
@@ -148,9 +153,6 @@
       "nix.serverPath" = "nil";
       "nix.serverSettings" = {
         "nil" = {
-          # "diagnostics" = {
-          #   "ignored" = [ "unused_binding" "unused_with" ];
-          # };
           "formatting" = {
             "command" = [ "nixpkgs-fmt" ];
           };
@@ -163,12 +165,10 @@
       # Nix
       bbenoist.nix
       jnoortheen.nix-ide
-      # arrterian.nix-env-selector
       # Haskell
       haskell.haskell
       # Python
       ms-python.python
-      # ms-python.vscode-pylance # FIXME - allowUnfree
       # Documentation
       yzhang.markdown-all-in-one
       # Configuration
