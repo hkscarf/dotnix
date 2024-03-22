@@ -26,6 +26,29 @@
   ## * Search - https://home-manager-options.extranix.com
   ## * Manual - https://nix-community.github.io/home-manager/options.xhtml
 
+
+  ## TODO Enable and check
+  # programs.awscli.enable = true;
+  # programs.awscli = {
+  #   # Configuration written to $HOME/.aws/credentials.
+  #   credentials = {
+  #     "default" = {
+  #       "credential_process" = "${pkgs.pass}/bin/pass show aws";  # FIXME TODO Bitwarden??
+  # https://github.com/grdryn/nix-home-manager-config/blob/59e9d1b31a7b04334dbe783bdb2759cd465c3c56/scripts/aws-bitwarden/aws-bitwarden.sh
+  # https://github.com/grdryn/nix-home-manager-config/blob/59e9d1b31a7b04334dbe783bdb2759cd465c3c56/shell.nix#L177C1-L178C1
+  # "credential_process" = "${pkgs.bitwarden-cli}/bin/bw get username 'AWS Access Key'";  # FIXME TODO Bitwarden??
+  # https://github.com/greg-hellings/nixos-config/blob/a61b23c5f45399482f062ccee3350937b8205378/overlays/configure_aws_creds.nix#L4
+  #     };
+  #   };
+  #   # Configuration written to $HOME/.aws/config.
+  #   settings = {
+  #     "default" = {
+  #       region = "us-west-2";
+  #       output = "json";
+  #     };
+  #   };
+  # };
+
   programs.bash.enable = true;
   programs.bash = {
     profileExtra = builtins.readFile ./bash_profile;
@@ -85,9 +108,15 @@
     enableBashIntegration = true;
   };
 
+  # Gitconfig written to ~/.config/git/config
   programs.git.enable = true;
   programs.git = {
     includes = [{ path = "~/.config/nixpkgs/gitconfig"; }];
+    # ignores = [
+    #   *.local
+    # ];
+    userEmail = "heneli.kailahi@scarf.sh";
+    userName = "Heneli";
   };
 
   programs.jq.enable = true;

@@ -55,7 +55,6 @@
   ##################################################################################################
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "raycast"
     "vscode"
   ];
 
@@ -97,7 +96,6 @@
     vulnix
 
     # GUI Apps
-    raycast
 
     # Other
 
@@ -109,6 +107,7 @@
     # rocksdb
     # openssl_3_1
     # tmux
+    bitwarden-cli
     curlWithGnuTls
     wget
   ];
@@ -116,47 +115,68 @@
   # Provided by nix-darwin.
   homebrew = {
     enable = true; # NOTE: Doesn't install homebrew. See https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.enable
-    brews = [
-      {
-        name = "libiconv";
-      }
-      {
-        name = "libpq";
-      }
-      {
-        name = "librdkafka";
-      }
-      {
-        name = "openssl";
-      }
-      {
-        name = "pcre";
-      }
-      {
-        name = "postgresql@11";
-      }
-      {
-        name = "rocksdb";
-      }
-      {
-        name = "tmux";
-      }
+    brews = [ # https://formulae.brew.sh/formula/{name}
+      # { name = "bitwarden-cli"; }
+      { name = "libiconv"; }
+      { name = "libpq"; }
+      { name = "librdkafka"; }
+      { name = "openssl"; }
+      { name = "pcre"; }
+      { name = "postgresql@11"; }
+      { name = "rocksdb"; }
+      { name = "tmux"; }
     ];
     casks = [
       # https://stackoverflow.com/a/44719239 https://stackoverflow.com/a/49719638
-      "docker" # https://formulae.brew.sh/cask/docker
+      "docker" # Docker CLI + Docker Desktop
+      "firefox" # browser
+      "raycast" # alfred/spotlight alternative, productivity tool
     ];
+    # masApps = [
+    #   # "bitwarden" = "1435957248"; # something like this
+    # ];
   };
 
   ##################################################################################################
-  ### Mac OS Configurations
+  ### Mac OS System Settings
   ##################################################################################################
 
-  system.defaults.NSGlobalDomain."com.apple.swipescrolldirection" = false;
+  ## See available configuration options at https://daiderd.com/nix-darwin/manual/index.html
+
+  system.defaults = {
+    dock = {
+      autohide = true;
+      orientation = "bottom";
+      # FIXME Coming in next nix-darwin release
+      # persistent-apps = [
+      #   "/System/Library/CoreServices/Finder.app"
+      #   "/Applications/Firefox.app"
+      #   "/System/Applications/Mail.app"
+      #   "/Applications/Slack.app" # via brew (eventually)
+      #   "/Applications/Linear.app" # via brew (eventually)
+      #   "/Applications/Bitwarden.app" # via brew (eventually)
+      #   "/System/Applications/Utilities/Terminal.app" # via brew
+      #   "/System/Applications/Notes.app"
+      #   # "/nix/store/kxraspckxq8zi6n964v15lcjv1lls4iy-home-manager-path/Applications/Visual\ Studio\ Code.app" # FIXME find stable symlink
+      # ];
+      show-process-indicators = true;
+      show-recents = false;
+      static-only = false;
+    };
+    finder = {
+      AppleShowAllExtensions = true;
+      ShowPathbar = true;
+      FXPreferredViewStyle = "clmv"; # Finder View Options: “icnv” = Icon view (default), “Nlsv” = List view, “clmv” = Column View, “Flwv” = Gallery View
+      _FXShowPosixPathInTitle = true; # show full posix filepath in window title
+    };
+    NSGlobalDomain = {
+      "com.apple.swipescrolldirection" = false;
+    };
+  };
 
   system.keyboard = {
     enableKeyMapping = true;
-    swapLeftCommandAndLeftAlt = true;
+    # swapLeftCommandAndLeftAlt = true;
   };
 
   ##################################################################################################
@@ -166,4 +186,23 @@
   ## See available configuration options at https://daiderd.com/nix-darwin/manual/index.html
 
   # TBD
+  environment = {
+    shellAliases = {
+      ll = "ls -l";
+    };
+  };
+
+  # TODO Move from `home.nix:programs.bash.bashrcExtra`????
+  # systemPath = [
+  #   "/usr/local/opt/postgresql@11/bin"
+  #   "$HOME/.ghcup/bin"
+  # ];
+
+  # TODO Move from `home.nix:home.sessionVariables`????
+  # variables = {
+  #   EDITOR = "code";
+  #   # Just keep copy of ./etc-nix files in .config/nix since nix.settings and nix.extraOptions refuse to work
+  #   # FIXME 1/2024 - Settings in `darwin.nix` get applied to /etc/nix/nix.conf before this changes?
+  #   NIX_CONF_DIR = "$HOME/.config/nix";
+  # };
 }

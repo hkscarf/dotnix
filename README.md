@@ -141,3 +141,5 @@ $ ./bin/apply-system.sh
 Declarative macOS Configuration - Using `nix-darwin` and `home-manager`: https://xyno.space/post/nix-darwin-introduction
 
 Setting up Nix on macOS: https://davi.sh/til/nix/nix-macos-setup/
+
+Switching to nix-darwin and Flakes: https://evantravers.com/articles/2024/02/06/switching-to-nix-darwin-and-flakes/
