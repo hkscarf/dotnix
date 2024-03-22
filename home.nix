@@ -13,9 +13,6 @@
 
   home.sessionVariables = {
     EDITOR = "code";
-    # Just keep copy of ./etc-nix files in .config/nix since nix.settings and nix.extraOptions refuse to work
-    # FIXME 1/2024 - Settings in `darwin.nix` get applied to /etc/nix/nix.conf before this changes?
-    NIX_CONF_DIR = "$HOME/.config/nix";
   };
 
   ##################################################################################################
