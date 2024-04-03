@@ -1,4 +1,37 @@
 { pkgs, lib, config, ... }:
+let
+  tie = import
+    (pkgs.fetchFromGitHub
+      {
+        owner = "justinwoo";
+        repo = "easy-tie-nix";
+        rev = "ca0d80f3767cdaa792f0904250f36f4125a4afa0";
+        sha256 = "sha256-5IozQCF8Bt+A7Y7hhmNrMzmb9lplgRu59ylLghSppRM=";
+      }
+    )
+    { inherit pkgs; };
+
+  # FIXME 1 - Requires --impure to lookup <nixpkgs>. FIXME just pass it
+  # FIXME 2 - Use overlay with old nixpkgs for python37Packages -> python311Packages? https://discourse.nixos.org/t/how-to-install-a-previous-version-of-a-specific-package-with-configuration-nix/25551/13
+  # error: attribute 'python37Packages' missing
+  #      at /nix/store/kvjbam6mbv5gcmb5lvv9grxpmvksbv89-source/default.nix:8:21:
+  #           7| (pkgs.callPackage "${nixpkgs}/pkgs/tools/security/vulnix" {
+  #           8|   python3Packages = pkgs.python37Packages;
+  #            |                     ^
+  #           9| }).overrideAttrs (
+  #      Did you mean one of python27Packages, python39Packages, python3Packages, python2Packages or python310Packages?
+  # vulnix = import
+  #   (pkgs.fetchFromGitHub
+  #     {
+  #       owner = "nix-community";
+  #       repo = "vulnix";
+  #       rev = "6f1a3c096305c0e469b297fbc114df2b16f37077";
+  #       sha256 = "sha256-PJZs+TVsvo3Ovf+z5DbMxdq3aTVUpez15rgz1FFNdXA=";
+  #     }
+  #   )
+  #   { inherit pkgs lib; };
+
+in
 {
   ##################################################################################################
   ### Configuring Nix + Nix-Darwin
@@ -62,61 +95,78 @@
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "vscode"
+    "terraform"
   ];
 
   # Provided by nixpkgs
-  environment.systemPackages = with pkgs; [
-    config.nix.package # Per https://discourse.nixos.org/t/how-to-upgrade-nix-on-macos-with-home-manager/25147/4
+  environment.systemPackages = [
+    tie
+    # vulnix FIXME Enable with overlay
+  ] ++ (with pkgs;
+    [
+      config.nix.package # Per https://discourse.nixos.org/t/how-to-upgrade-nix-on-macos-with-home-manager/25147/4
 
-    # Programming Languages and Environments
-    python313
-    # haskell.compiler.ghc94 # ghc-9.4.5 (lts-21.3)
-    nodejs_21
-    nodePackages.pnpm
+      # Programming Languages and Environments
+      python313
+      # haskell.compiler.ghc94 # ghc-9.4.5 (lts-21.3)
+      nodejs_21
+      nodePackages.pnpm
 
-    # Infra
+      # Formatters
+      haskellPackages.cabal-fmt
+      nixpkgs-fmt
+      ormolu
+      treefmt
 
-    # Data Store
-    sqlite
+      # Infra
+      dhall
+      terraform
 
-    # Shell
-    bashInteractive
+      # Data
+      sqlcheck # SQL Anti-Pattern Linter
+      tbls # Tool for documenting sql databases
 
-    # CLI Programs
-    bat # modern `cat`
-    delta # for diff-ing
-    procs # modern `ps`
-    tldr # quick usage guide when you don't need the full manpages
-    tree # visualize directory tree
-    visidata # Excel for CLI
+      # Data Store
+      clickhouse
+      sqlite
 
-    # Nix-specific Tools
-    cachix
-    haskellPackages.nix-derivation
-    nil # https://github.com/oxalica/nil#readme
-    nix-direnv
-    nix-info
-    nix-tree
-    nixpkgs-fmt
-    sbomnix
-    vulnix
+      # Shell
+      bashInteractive
 
-    # GUI Apps
+      # CLI Programs
+      bat # modern `cat`
+      delta # for diff-ing
+      jc # convert cli command outputs to json
+      procs # modern `ps`
+      tldr # quick usage guide when you don't need the full manpages
+      tree # visualize directory tree
+      visidata # Excel for CLI
 
-    # Other
+      # Nix-specific Tools
+      cachix
+      haskellPackages.nix-derivation
+      nil # https://github.com/oxalica/nil#readme
+      nix-direnv
+      nix-info
+      nix-tree
+      sbomnix
 
-    # Mac OS Setup - Scarf Deps - https://www.notion.so/scarf/Mac-OS-setup-...
-    # darwin.libiconv
-    # libpqxx # - FIXME using homebrew for now
-    # pcre - FIXME using homebrew for now
-    # rdkafka - FIXME using homebrew for now
-    # rocksdb
-    # openssl_3_1
-    # tmux
-    bitwarden-cli
-    curlWithGnuTls
-    wget
-  ];
+      # GUI Apps
+
+      # Other
+
+      # Mac OS Setup - Scarf Deps - https://www.notion.so/scarf/Mac-OS-setup-...
+      # darwin.libiconv
+      # libpqxx # - FIXME using homebrew for now
+      # pcre - FIXME using homebrew for now
+      # rdkafka - FIXME using homebrew for now
+      # rocksdb
+      # openssl_3_1
+      # tmux
+      bitwarden-cli
+      curlWithGnuTls
+      wget
+    ]);
 
   # Provided by nix-darwin.
   homebrew = {
@@ -129,7 +179,7 @@
       { name = "librdkafka"; }
       { name = "openssl"; }
       { name = "pcre"; }
-      { name = "postgresql@11"; }
+      { name = "postgresql@14"; }
       { name = "rocksdb"; }
       { name = "tmux"; }
     ];

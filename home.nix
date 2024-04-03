@@ -65,9 +65,9 @@
       # export PATH="/run/current-system/sw/bin:$PATH"
       # export PATH="/etc/profiles/per-user/hkscarf/bin:$PATH"
 
-      export PATH="/usr/local/opt/postgresql@11/bin:$PATH"
-      export LDFLAGS="-L/usr/local/opt/postgresql@11/lib"
-      export CPPFLAGS="-I/usr/local/opt/postgresql@11/include"
+      export PATH="/usr/local/opt/postgresql@14/bin:$PATH"
+      export LDFLAGS="-L/usr/local/opt/postgresql@14/lib"
+      export CPPFLAGS="-I/usr/local/opt/postgresql@14/include"
 
       export PATH="$HOME/.ghcup/bin:$PATH"
     '';
@@ -94,11 +94,18 @@
 
   programs.direnv.enable = true;
   programs.direnv = {
-    enableBashIntegration = true;
     nix-direnv.enable = true;
+
+    enableBashIntegration = true;
+    enableNushellIntegration = true;
   };
 
   programs.eza.enable = true;
+  programs.eza = {
+    git = true;
+    # enableBashIntegration = true;
+    # enableNushellIntegration = true;
+  };
 
   programs.fzf.enable = true;
   programs.fzf = {
@@ -145,6 +152,16 @@
   programs.nix-index.enable = true;
   programs.nix-index = {
     enableBashIntegration = true;
+  };
+
+  # Pretty dataframe manipulation of shell commands with polars
+  programs.nushell.enable = true;
+  programs.nushell = {
+    extraConfig = ''
+      $env.config = {
+        show_banner: false,
+      }
+    '';
   };
 
   programs.pylint.enable = true;
@@ -261,6 +278,7 @@
   programs.zoxide = {
     enable = true;
     enableBashIntegration = true;
+    enableNushellIntegration = true;
   };
 
   programs.zsh.enable = false;

@@ -11,11 +11,6 @@
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    devenv.url = "github:cachix/devenv";
-    tie = {
-      url = "github:piq9117/tie/piq9117/flake.nix"; # flake-based fork of github:scarf-sh/tie on ghc-9.0.2
-
-    };
   };
 
   outputs = { home-manager, nix-darwin, ... }:
