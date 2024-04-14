@@ -208,17 +208,19 @@ in
       autohide = true;
       orientation = "bottom";
       # FIXME Coming in next nix-darwin release
-      # persistent-apps = [
-      #   "/System/Library/CoreServices/Finder.app"
-      #   "/Applications/Firefox.app"
-      #   "/System/Applications/Mail.app"
-      #   "/Applications/Slack.app" # via brew (eventually)
-      #   "/Applications/Linear.app" # via brew (eventually)
-      #   "/Applications/Bitwarden.app" # via brew (eventually)
-      #   "/System/Applications/Utilities/Terminal.app" # via brew
-      #   "/System/Applications/Notes.app"
-      #   # "/nix/store/kxraspckxq8zi6n964v15lcjv1lls4iy-home-manager-path/Applications/Visual\ Studio\ Code.app" # FIXME find stable symlink
-      # ];
+      persistent-apps = [
+        "/Applications/Firefox.app"
+        "/Applications/Slack.app" # via brew (eventually)
+        "/System/Applications/Mail.app"
+        "/Applications/Notion.app" # via brew (eventually)
+        "/Applications/Linear.app" # via brew (eventually)
+        "/Applications/Bitwarden.app" # via brew (eventually)
+        "/System/Applications/Utilities/Terminal.app" # via brew
+        "/Applications/Docker.app" # via brew
+        "/Applications/Raycast.app" # via brew
+        "/Applications/Mullvad\ VPN.app" # via brew
+        # "/nix/store/kxraspckxq8zi6n964v15lcjv1lls4iy-home-manager-path/Applications/Visual\ Studio\ Code.app" # FIXME find stable symlink
+      ];
       show-process-indicators = true;
       show-recents = false;
       static-only = false;
@@ -234,9 +236,12 @@ in
     };
   };
 
+  # NOTE TO SELF: Set up "external unknown keyboard" in System Preferences > Keyboard > Modifier Keys: 
+    #   - Command key -> Option
+    #   - Option key -> Commmand
   system.keyboard = {
     enableKeyMapping = true;
-    # swapLeftCommandAndLeftAlt = true;
+    remapCapsLockToEscape = true;
   };
 
   ##################################################################################################

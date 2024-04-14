@@ -239,7 +239,7 @@
         # Automatically load environments with direnv
         name = "direnv";
         publisher = "mkhl";
-        version = "0.14.0";
+        version = "0.17.0";
         sha256 = "sha256-T+bt6ku+zkqzP1gXNLcpjtFAevDRiSKnZaE7sM4pUOs=";
       }
       {
@@ -253,7 +253,7 @@
         # Pretty Typescript Errors
         name = "pretty-ts-errors";
         publisher = "yoavbls";
-        version = "0.4.1";
+        version = "0.5.4";
         sha256 = "sha256-vY/dVO9k3LcXLYH9eX9blKMB+mDGCWkmU9ZU62YvAcM=";
       }
       {
