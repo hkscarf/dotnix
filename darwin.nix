@@ -107,6 +107,7 @@ in
       config.nix.package # Per https://discourse.nixos.org/t/how-to-upgrade-nix-on-macos-with-home-manager/25147/4
 
       # Programming Languages and Environments
+      go
       python313
       # haskell.compiler.ghc94 # ghc-9.4.5 (lts-21.3)
       nodejs_21
@@ -199,6 +200,8 @@ in
   ##################################################################################################
 
   ## See available configuration options at https://daiderd.com/nix-darwin/manual/index.html
+
+  security.pam.enableSudoTouchIdAuth = true;
 
   system.defaults = {
     dock = {

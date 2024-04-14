@@ -180,7 +180,7 @@
         "tabSize" = 2;
         "rulers" = [ 100 ];
       };
-      "files.trimTrailingWhitespace" = true;
+      "files.trimTrailingWhitespace" = false;
       "markdown.preview.doubleClickToSwitchToEditor" = false;
       "markdown.preview.openMarkdownLinks" = "inEditor";
       "[markdown]" = {
@@ -208,17 +208,29 @@
       # Nix
       bbenoist.nix
       jnoortheen.nix-ide
+      # mkhl.direnv
+
       # Haskell
       haskell.haskell
-      # Python
-      ms-python.python
+
+      # JS + TS
+      esbenp.prettier-vscode
+
       # Documentation
+      unifiedjs.vscode-mdx
       yzhang.markdown-all-in-one
+
       # Configuration
       tamasfe.even-better-toml
-      # Theme
-      # Tooling
+
+      # Themes
+      
+      # Version Control
       eamodio.gitlens
+      github.vscode-github-actions
+      github.vscode-pull-request-github
+      
+      
       # General
     ]
 
@@ -231,18 +243,11 @@
         sha256 = "sha256-T+bt6ku+zkqzP1gXNLcpjtFAevDRiSKnZaE7sM4pUOs=";
       }
       {
-        # Mypy
-        name = "mypy";
-        publisher = "matangover";
-        version = "0.2.2";
-        sha256 = "sha256-eaiR30HjPCpOLUKQqiQ2Oqj+XY+JNnV47bM5KD2Mouk=";
-      }
-      {
-        # Prettier JS formatter
-        name = "prettier-vscode";
-        publisher = "esbenp";
-        version = "9.10.4";
-        sha256 = "sha256-khtyB0Qbm+iuM1GsAaF32YRv1VBTIy7daeCKdgwCIC8=";
+        # A full-featured WYSIWYG editor for markdown
+        name = "markdown-editor"; # configure in vscode's settings.json through nix
+        publisher = "zaaack";
+        version = "0.1.10";
+        sha256 = "sha256-K1nczR059BsiHpT1xdtJjpFLl5krt4H9+CrEsIycq9U=";
       }
       {
         # Pretty Typescript Errors
@@ -252,25 +257,11 @@
         sha256 = "sha256-vY/dVO9k3LcXLYH9eX9blKMB+mDGCWkmU9ZU62YvAcM=";
       }
       {
-        # Run python doctests inline like HLS
-        name = "python-inline-repl";
-        publisher = "zijie";
-        version = "0.0.1";
-        sha256 = "sha256-rn/ZR5OgDaxAGB+Q0FJ3Vx1VIAVosoZq1A5z+hptiI0=";
-      }
-      {
         # Documentation with Zeal (linux kapeli/Dash.app alternetive)
         name = "vscode-dash"; # configure in vscode's settings.json through nix
         publisher = "deerawan";
         version = "2.4.0";
         sha256 = "sha256-Yqn59ppNWQRMWGYVLLWofogds+4t/WRRtSSfomPWQy4=";
-      }
-      {
-        # Language support for MDX
-        name = "vscode-mdx";
-        publisher = "unifiedjs";
-        version = "1.3.0";
-        sha256 = "sha256-TfqSU9V5vG7GwxEihUdEGC19VFHEUjlrTg+XXHdOYn4=";
       }
     ];
   };
