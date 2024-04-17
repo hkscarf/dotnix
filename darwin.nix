@@ -179,10 +179,12 @@ in
       { name = "libpq"; }
       { name = "librdkafka"; }
       { name = "openssl"; }
+      { name = "pkg-config"; }
       { name = "pcre"; }
       { name = "postgresql@14"; }
       { name = "rocksdb"; }
       { name = "tmux"; }
+      { name = "zlib"; }
     ];
     casks = [
       # https://stackoverflow.com/a/44719239 https://stackoverflow.com/a/49719638
