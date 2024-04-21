@@ -121,6 +121,7 @@ in
 
       # Infra
       dhall
+      k9s
       terraform
 
       # Data
