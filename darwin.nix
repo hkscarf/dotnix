@@ -222,7 +222,7 @@ in
         "/Applications/Docker.app" # via brew
         "/Applications/Raycast.app" # via brew
         "/Applications/Mullvad\ VPN.app" # via brew
-        # "/nix/store/kxraspckxq8zi6n964v15lcjv1lls4iy-home-manager-path/Applications/Visual\ Studio\ Code.app" # FIXME find stable symlink
+        "${pkgs.vscode}/Applications/Visual\ Studio\ Code.app"
       ];
       show-process-indicators = true;
       show-recents = false;
