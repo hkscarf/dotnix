@@ -254,7 +254,7 @@
         name = "pretty-ts-errors";
         publisher = "yoavbls";
         version = "0.5.4";
-        sha256 = "sha256-vY/dVO9k3LcXLYH9eX9blKMB+mDGCWkmU9ZU62YvAcM=";
+        sha256 = "sha256-SMEqbpKYNck23zgULsdnsw4PS20XMPUpJ5kYh1fpd14=";
       }
       {
         # Documentation with Zeal (linux kapeli/Dash.app alternetive)

@@ -38,7 +38,7 @@ in
   ##################################################################################################
 
   # The platform the configuration will be used on.
-  nixpkgs.hostPlatform = "x86_64-darwin";
+  nixpkgs.hostPlatform = "aarch64-darwin";
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
@@ -94,13 +94,14 @@ in
   ##################################################################################################
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "vscode"
+    "raycast"
     "terraform"
+    "vscode"
   ];
 
   # Provided by nixpkgs
   environment.systemPackages = [
-    tie
+    # tie # FIXME Bad CPU type in executable - For full logs, run 'nix log /nix/store/fj4w2qxg3fdfphcr6z1llv8y50499b3k-tie-20240321.drv'
     # vulnix FIXME Enable with overlay
   ] ++ (with pkgs;
     [
@@ -154,6 +155,7 @@ in
       sbomnix
 
       # GUI Apps
+      raycast # alfred/spotlight alternative, productivity tool
 
       # Other
 
@@ -191,7 +193,7 @@ in
       # https://stackoverflow.com/a/44719239 https://stackoverflow.com/a/49719638
       "docker" # Docker CLI + Docker Desktop
       "firefox" # browser
-      "raycast" # alfred/spotlight alternative, productivity tool
+      # "raycast" # alfred/spotlight alternative, productivity tool
     ];
     # masApps = [
     #   # "bitwarden" = "1435957248"; # something like this
@@ -212,16 +214,16 @@ in
       orientation = "bottom";
       # FIXME Coming in next nix-darwin release
       persistent-apps = [
-        "/Applications/Firefox.app"
-        "/Applications/Slack.app" # via brew (eventually)
+        # "/Applications/Firefox.app"
+        # "/Applications/Slack.app" # via brew (eventually)
         "/System/Applications/Mail.app"
-        "/Applications/Notion.app" # via brew (eventually)
-        "/Applications/Linear.app" # via brew (eventually)
-        "/Applications/Bitwarden.app" # via brew (eventually)
+        # "/Applications/Notion.app" # via brew (eventually)
+        # "/Applications/Linear.app" # via brew (eventually)
+        # "/Applications/Bitwarden.app" # via brew (eventually)
         "/System/Applications/Utilities/Terminal.app" # via brew
-        "/Applications/Docker.app" # via brew
-        "/Applications/Raycast.app" # via brew
-        "/Applications/Mullvad\ VPN.app" # via brew
+        # "/Applications/Docker.app" # via brew
+        # "${pkgs.raycast}/Applications/Raycast.app" # via brew
+        # "/Applications/Mullvad\ VPN.app" # via brew
         "${pkgs.vscode}/Applications/Visual\ Studio\ Code.app"
       ];
       show-process-indicators = true;

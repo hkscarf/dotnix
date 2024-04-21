@@ -15,8 +15,8 @@
 
   outputs = { home-manager, nix-darwin, ... }:
     {
-      darwinConfigurations."HKs-MacBook-Pro" = nix-darwin.lib.darwinSystem {
-        system = "x86_64-darwin";
+      darwinConfigurations."Henelis-MacBook-Air" = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
         modules = [
           ./darwin.nix
           home-manager.darwinModules.home-manager
