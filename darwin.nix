@@ -11,26 +11,6 @@ let
     )
     { inherit pkgs; };
 
-  # FIXME 1 - Requires --impure to lookup <nixpkgs>. FIXME just pass it
-  # FIXME 2 - Use overlay with old nixpkgs for python37Packages -> python311Packages? https://discourse.nixos.org/t/how-to-install-a-previous-version-of-a-specific-package-with-configuration-nix/25551/13
-  # error: attribute 'python37Packages' missing
-  #      at /nix/store/kvjbam6mbv5gcmb5lvv9grxpmvksbv89-source/default.nix:8:21:
-  #           7| (pkgs.callPackage "${nixpkgs}/pkgs/tools/security/vulnix" {
-  #           8|   python3Packages = pkgs.python37Packages;
-  #            |                     ^
-  #           9| }).overrideAttrs (
-  #      Did you mean one of python27Packages, python39Packages, python3Packages, python2Packages or python310Packages?
-  # vulnix = import
-  #   (pkgs.fetchFromGitHub
-  #     {
-  #       owner = "nix-community";
-  #       repo = "vulnix";
-  #       rev = "6f1a3c096305c0e469b297fbc114df2b16f37077";
-  #       sha256 = "sha256-PJZs+TVsvo3Ovf+z5DbMxdq3aTVUpez15rgz1FFNdXA=";
-  #     }
-  #   )
-  #   { inherit pkgs lib; };
-
 in
 {
   ##################################################################################################
@@ -76,6 +56,10 @@ in
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
+      trusted-users = [
+        "root"
+        "hkscarf"
       ];
     };
   };
@@ -177,7 +161,8 @@ in
     enable = true; # NOTE: Doesn't install homebrew. See https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.enable
     brews = [
       # https://formulae.brew.sh/formula/{name}
-      # { name = "bitwarden-cli"; }
+      
+      # Dev dependencies
       { name = "libiconv"; }
       { name = "libpq"; }
       { name = "librdkafka"; }
@@ -188,16 +173,24 @@ in
       { name = "rocksdb"; }
       { name = "tmux"; }
       { name = "zlib"; }
+
+      # Other
+      # { name = "bitwarden-cli"; }
+      # { name = "mas"; }
     ];
     casks = [
       # https://stackoverflow.com/a/44719239 https://stackoverflow.com/a/49719638
-      "docker" # Docker CLI + Docker Desktop
+      # "docker" # Docker CLI + Docker Desktop
       "firefox" # browser
-      # "raycast" # alfred/spotlight alternative, productivity tool
+      "linear-linear" # work issue tracker
+      "mullvadvpn" # privacy vpn
+      "notion" # work docs
+      "orbstack" # Docker Desktop alternative
+      "slack" # work chat
     ];
-    # masApps = [
-    #   # "bitwarden" = "1435957248"; # something like this
-    # ];
+    masApps = {
+      Bitwarden = 1352778147; # something like this
+    };
   };
 
   ##################################################################################################
@@ -214,16 +207,17 @@ in
       orientation = "bottom";
       # FIXME Coming in next nix-darwin release
       persistent-apps = [
-        # "/Applications/Firefox.app"
-        # "/Applications/Slack.app" # via brew (eventually)
+        "/Applications/Firefox.app"
+        "/Applications/Slack.app" # via brew cask
         "/System/Applications/Mail.app"
-        # "/Applications/Notion.app" # via brew (eventually)
-        # "/Applications/Linear.app" # via brew (eventually)
-        # "/Applications/Bitwarden.app" # via brew (eventually)
+        "/Applications/Notion.app" # via brew cask
+        "/Applications/Linear.app" # via brew cask
+        "/Applications/Bitwarden.app" # via brew and `mas` (mac app store tool)
         "/System/Applications/Utilities/Terminal.app" # via brew
-        # "/Applications/Docker.app" # via brew
-        # "${pkgs.raycast}/Applications/Raycast.app" # via brew
-        # "/Applications/Mullvad\ VPN.app" # via brew
+        # "/Applications/Docker.app" # via brew cask
+        "/Applications/Orbstack.app" # via brew cask
+        "${pkgs.raycast}/Applications/Raycast.app"
+        "/Applications/Mullvad\ VPN.app" # via brew cask
         "${pkgs.vscode}/Applications/Visual\ Studio\ Code.app"
       ];
       show-process-indicators = true;

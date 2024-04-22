@@ -65,7 +65,8 @@
       # export PATH="/run/current-system/sw/bin:$PATH"
       # export PATH="/etc/profiles/per-user/hkscarf/bin:$PATH"
 
-      export PATH="/usr/local/opt/postgresql@14/bin:$PATH"
+      export PATH="/opt/homebrew/bin:$PATH"
+      export PATH="/opt/homebrew/bin/opt/postgresql@14/bin:$PATH"
       export LDFLAGS="-L/usr/local/opt/postgresql@14/lib"
       export CPPFLAGS="-I/usr/local/opt/postgresql@14/include"
 
