@@ -140,6 +140,7 @@ in
 
       # GUI Apps
       raycast # alfred/spotlight alternative, productivity tool
+      tailscale # work vpn
 
       # Other
 
@@ -189,7 +190,8 @@ in
       "slack" # work chat
     ];
     masApps = {
-      Bitwarden = 1352778147; # something like this
+      Bitwarden = 1352778147; # work pw manager
+      Tailscale = 1475387142; # work vpn
     };
   };
 

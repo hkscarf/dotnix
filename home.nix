@@ -1,5 +1,21 @@
-{ pkgs, ... }:
+{ pkgs, lib, config, ... }:
 {
+  imports = [
+    # Make vscode settings writable. Mutable VSCode Settings module per: 
+    #  - https://github.com/nix-community/home-manager/issues/1800#issuecomment-1924321850
+    #  - https://gist.github.com/piousdeer/b29c272eaeba398b864da6abf6cb5daa
+
+    (import (builtins.fetchurl {
+      url = "https://gist.githubusercontent.com/piousdeer/b29c272eaeba398b864da6abf6cb5daa/raw/41e569ba110eb6ebbb463a6b1f5d9fe4f9e82375/mutability.nix";
+      sha256 = "4b5ca670c1ac865927e98ac5bf5c131eca46cc20abf0bd0612db955bfc979de8";
+    }) { inherit config lib; })
+
+    (import (builtins.fetchurl {
+      url = "https://gist.githubusercontent.com/piousdeer/b29c272eaeba398b864da6abf6cb5daa/raw/41e569ba110eb6ebbb463a6b1f5d9fe4f9e82375/vscode.nix";
+      sha256 = "fed877fa1eefd94bc4806641cea87138df78a47af89c7818ac5e76ebacbd025f";
+    }) { inherit config lib pkgs; })
+  ];
+  
   ##################################################################################################
   ### Configuring Nix + Home-Manager
   ##################################################################################################
@@ -25,9 +41,9 @@
 
 
   ## TODO Enable and check
-  # programs.awscli.enable = true;
-  # programs.awscli = {
-  #   # Configuration written to $HOME/.aws/credentials.
+  programs.awscli.enable = true;
+  programs.awscli = {
+    # Configuration written to $HOME/.aws/credentials.
   #   credentials = {
   #     "default" = {
   #       "credential_process" = "${pkgs.pass}/bin/pass show aws";  # FIXME TODO Bitwarden??
@@ -37,14 +53,14 @@
   # https://github.com/greg-hellings/nixos-config/blob/a61b23c5f45399482f062ccee3350937b8205378/overlays/configure_aws_creds.nix#L4
   #     };
   #   };
-  #   # Configuration written to $HOME/.aws/config.
-  #   settings = {
-  #     "default" = {
-  #       region = "us-west-2";
-  #       output = "json";
-  #     };
-  #   };
-  # };
+    # Configuration written to $HOME/.aws/config.
+    settings = {
+      "default" = {
+        region = "us-west-2";
+        output = "json";
+      };
+    };
+  };
 
   programs.bash.enable = true;
   programs.bash = {
