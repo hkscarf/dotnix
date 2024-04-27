@@ -205,6 +205,10 @@
       "window.titleBarStyle" = "native";
     };
 
+    # https://github.com/nix-community/home-manager/issues/3507
+    # https://github.com/nix-community/home-manager/issues/4394#issuecomment-1712909231
+    mutableExtensionsDir = false;
+
     extensions =
       # TODO Requires stable and unstable nixpkgs
       # with pkgs-unstable.vscode-extensions; [
@@ -218,6 +222,7 @@
         # mkhl.direnv
 
         # Haskell
+        justusadam.language-haskell # syntax highlighting, transitive dep of haskell.haskell
         haskell.haskell
 
         # JS + TS
@@ -229,6 +234,9 @@
 
         # Configuration
         tamasfe.even-better-toml
+
+        # Serialization Formats
+        mechatroner.rainbow-csv
 
         # Themes
 
