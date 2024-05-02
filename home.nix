@@ -250,6 +250,13 @@
       ]) ++
       pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
+          # Avro Schema IDL Syntax highlighting (.avsc)
+          name = "avro";
+          publisher = "streetsidesoftware";
+          version = "0.5.0";
+          sha256 = "sha256-8st8PJcqh132IZfL1qREfFpFw/esoG4KHxB3ubttH0o=";
+        }
+        {
           # Automatically load environments with direnv
           name = "direnv";
           publisher = "mkhl";
@@ -284,6 +291,15 @@
           publisher = "deerawan";
           version = "2.4.0";
           sha256 = "sha256-Yqn59ppNWQRMWGYVLLWofogds+4t/WRRtSSfomPWQy4=";
+        }
+        {
+          # importing 📤 viewing 🔎 slicing 🔪 dicing 🎲 charting 📊 & exporting 📥 large .json array 
+          # .arrow .avro .parquet data files, .config .env .properties .ini .yml configurations 
+          # files, .csv/.tsv & .xlsx/.xlsb Excel files and .md markdown tables
+          name = "vscode-data-preview";
+          publisher = "randomfractalsinc";
+          version = "2.3.0";
+          sha256 = "sha256-hKnAKdt0splUFyN8n9IdTD8NKjahIMMrLkkwg55zWv0=";
         }
       ];
   };
