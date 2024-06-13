@@ -85,7 +85,7 @@ in
 
   # Provided by nixpkgs
   environment.systemPackages = [
-    # tie # FIXME Bad CPU type in executable - For full logs, run 'nix log /nix/store/fj4w2qxg3fdfphcr6z1llv8y50499b3k-tie-20240321.drv'
+    tie # FIXME Bad CPU type in executable - For full logs, run 'nix log /nix/store/fj4w2qxg3fdfphcr6z1llv8y50499b3k-tie-20240321.drv'
     # vulnix FIXME Enable with overlay
   ] ++ (with pkgs;
     [

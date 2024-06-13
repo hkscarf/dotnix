@@ -238,6 +238,9 @@
         # Serialization Formats
         mechatroner.rainbow-csv
 
+        # Infra
+        hashicorp.terraform
+
         # Themes
 
         # Version Control
