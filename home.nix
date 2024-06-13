@@ -25,26 +25,26 @@
 
 
   ## TODO Enable and check
-  # programs.awscli.enable = true;
-  # programs.awscli = {
-  #   # Configuration written to $HOME/.aws/credentials.
-  #   credentials = {
-  #     "default" = {
-  #       "credential_process" = "${pkgs.pass}/bin/pass show aws";  # FIXME TODO Bitwarden??
-  # https://github.com/grdryn/nix-home-manager-config/blob/59e9d1b31a7b04334dbe783bdb2759cd465c3c56/scripts/aws-bitwarden/aws-bitwarden.sh
-  # https://github.com/grdryn/nix-home-manager-config/blob/59e9d1b31a7b04334dbe783bdb2759cd465c3c56/shell.nix#L177C1-L178C1
-  # "credential_process" = "${pkgs.bitwarden-cli}/bin/bw get username 'AWS Access Key'";  # FIXME TODO Bitwarden??
-  # https://github.com/greg-hellings/nixos-config/blob/a61b23c5f45399482f062ccee3350937b8205378/overlays/configure_aws_creds.nix#L4
-  #     };
-  #   };
-  #   # Configuration written to $HOME/.aws/config.
-  #   settings = {
-  #     "default" = {
-  #       region = "us-west-2";
-  #       output = "json";
-  #     };
-  #   };
-  # };
+  programs.awscli.enable = true;
+  programs.awscli = {
+    # Configuration written to $HOME/.aws/credentials.
+    #   credentials = {
+    #     "default" = {
+    #       "credential_process" = "${pkgs.pass}/bin/pass show aws";  # FIXME TODO Bitwarden??
+    # https://github.com/grdryn/nix-home-manager-config/blob/59e9d1b31a7b04334dbe783bdb2759cd465c3c56/scripts/aws-bitwarden/aws-bitwarden.sh
+    # https://github.com/grdryn/nix-home-manager-config/blob/59e9d1b31a7b04334dbe783bdb2759cd465c3c56/shell.nix#L177C1-L178C1
+    # "credential_process" = "${pkgs.bitwarden-cli}/bin/bw get username 'AWS Access Key'";  # FIXME TODO Bitwarden??
+    # https://github.com/greg-hellings/nixos-config/blob/a61b23c5f45399482f062ccee3350937b8205378/overlays/configure_aws_creds.nix#L4
+    #     };
+    #   };
+    # Configuration written to $HOME/.aws/config.
+    settings = {
+      "default" = {
+        region = "us-west-2";
+        output = "json";
+      };
+    };
+  };
 
   programs.bash.enable = true;
   programs.bash = {
@@ -65,7 +65,8 @@
       # export PATH="/run/current-system/sw/bin:$PATH"
       # export PATH="/etc/profiles/per-user/hkscarf/bin:$PATH"
 
-      export PATH="/usr/local/opt/postgresql@14/bin:$PATH"
+      export PATH="/opt/homebrew/bin:$PATH"
+      export PATH="/opt/homebrew/bin/opt/postgresql@14/bin:$PATH"
       export LDFLAGS="-L/usr/local/opt/postgresql@14/lib"
       export CPPFLAGS="-I/usr/local/opt/postgresql@14/include"
 
@@ -204,66 +205,106 @@
       "window.titleBarStyle" = "native";
     };
 
-    extensions = with pkgs.vscode-extensions; [
-      # Nix
-      bbenoist.nix
-      jnoortheen.nix-ide
-      # mkhl.direnv
+    # https://github.com/nix-community/home-manager/issues/3507
+    # https://github.com/nix-community/home-manager/issues/4394#issuecomment-1712909231
+    mutableExtensionsDir = false;
 
-      # Haskell
-      haskell.haskell
+    extensions =
+      # TODO Requires stable and unstable nixpkgs
+      # with pkgs-unstable.vscode-extensions; [
+      #   # Jinja Templating 
+      #   samuelcolvin.jinjahtml # *.{sql,js,etc}.jinja syntax highlighting)
+      # ] ++
+      (with pkgs.vscode-extensions; [
+        # Nix
+        bbenoist.nix
+        jnoortheen.nix-ide
+        # mkhl.direnv
 
-      # JS + TS
-      esbenp.prettier-vscode
+        # Haskell
+        justusadam.language-haskell # syntax highlighting, transitive dep of haskell.haskell
+        haskell.haskell
 
-      # Documentation
-      unifiedjs.vscode-mdx
-      yzhang.markdown-all-in-one
+        # JS + TS
+        esbenp.prettier-vscode
 
-      # Configuration
-      tamasfe.even-better-toml
+        # Documentation
+        unifiedjs.vscode-mdx
+        yzhang.markdown-all-in-one
 
-      # Themes
-      
-      # Version Control
-      eamodio.gitlens
-      github.vscode-github-actions
-      github.vscode-pull-request-github
-      
-      
-      # General
-    ]
+        # Configuration
+        tamasfe.even-better-toml
 
-    ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-      {
-        # Automatically load environments with direnv
-        name = "direnv";
-        publisher = "mkhl";
-        version = "0.17.0";
-        sha256 = "sha256-T+bt6ku+zkqzP1gXNLcpjtFAevDRiSKnZaE7sM4pUOs=";
-      }
-      {
-        # A full-featured WYSIWYG editor for markdown
-        name = "markdown-editor"; # configure in vscode's settings.json through nix
-        publisher = "zaaack";
-        version = "0.1.10";
-        sha256 = "sha256-K1nczR059BsiHpT1xdtJjpFLl5krt4H9+CrEsIycq9U=";
-      }
-      {
-        # Pretty Typescript Errors
-        name = "pretty-ts-errors";
-        publisher = "yoavbls";
-        version = "0.5.4";
-        sha256 = "sha256-vY/dVO9k3LcXLYH9eX9blKMB+mDGCWkmU9ZU62YvAcM=";
-      }
-      {
-        # Documentation with Zeal (linux kapeli/Dash.app alternetive)
-        name = "vscode-dash"; # configure in vscode's settings.json through nix
-        publisher = "deerawan";
-        version = "2.4.0";
-        sha256 = "sha256-Yqn59ppNWQRMWGYVLLWofogds+4t/WRRtSSfomPWQy4=";
-      }
-    ];
+        # Serialization Formats
+        mechatroner.rainbow-csv
+
+        # Infra
+        hashicorp.terraform
+
+        # Themes
+
+        # Version Control
+        eamodio.gitlens
+        github.vscode-github-actions
+        github.vscode-pull-request-github
+
+
+        # General
+      ]) ++
+      pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        {
+          # Avro Schema IDL Syntax highlighting (.avsc)
+          name = "avro";
+          publisher = "streetsidesoftware";
+          version = "0.5.0";
+          sha256 = "sha256-8st8PJcqh132IZfL1qREfFpFw/esoG4KHxB3ubttH0o=";
+        }
+        {
+          # Automatically load environments with direnv
+          name = "direnv";
+          publisher = "mkhl";
+          version = "0.17.0";
+          sha256 = "sha256-T+bt6ku+zkqzP1gXNLcpjtFAevDRiSKnZaE7sM4pUOs=";
+        }
+        {
+          # TODO Get from pkgs-unstable
+          # Jinja Templating: *.{sql,js,etc}.jinja syntax highlighting
+          name = "jinjahtml";
+          publisher = "samuelcolvin";
+          version = "0.20.0";
+          sha256 = "sha256-wADL3AkLfT2N9io8h6XYgceKyltJCz5ZHZhB14ipqpM=";
+        }
+        {
+          # A full-featured WYSIWYG editor for markdown
+          name = "markdown-editor"; # configure in vscode's settings.json through nix
+          publisher = "zaaack";
+          version = "0.1.10";
+          sha256 = "sha256-K1nczR059BsiHpT1xdtJjpFLl5krt4H9+CrEsIycq9U=";
+        }
+        {
+          # Pretty Typescript Errors
+          name = "pretty-ts-errors";
+          publisher = "yoavbls";
+          version = "0.5.4";
+          sha256 = "sha256-SMEqbpKYNck23zgULsdnsw4PS20XMPUpJ5kYh1fpd14=";
+        }
+        {
+          # Documentation with Zeal (linux kapeli/Dash.app alternetive)
+          name = "vscode-dash"; # configure in vscode's settings.json through nix
+          publisher = "deerawan";
+          version = "2.4.0";
+          sha256 = "sha256-Yqn59ppNWQRMWGYVLLWofogds+4t/WRRtSSfomPWQy4=";
+        }
+        {
+          # importing 📤 viewing 🔎 slicing 🔪 dicing 🎲 charting 📊 & exporting 📥 large .json array 
+          # .arrow .avro .parquet data files, .config .env .properties .ini .yml configurations 
+          # files, .csv/.tsv & .xlsx/.xlsb Excel files and .md markdown tables
+          name = "vscode-data-preview";
+          publisher = "randomfractalsinc";
+          version = "2.3.0";
+          sha256 = "sha256-hKnAKdt0splUFyN8n9IdTD8NKjahIMMrLkkwg55zWv0=";
+        }
+      ];
   };
 
   programs.zoxide = {
