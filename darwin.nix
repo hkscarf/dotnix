@@ -27,7 +27,7 @@ in
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
   nix = {
-    package = pkgs.nixVersions.nix_2_19; # Per https://discourse.nixos.org/t/how-to-upgrade-nix-on-macos-with-home-manager/25147/4
+    package = pkgs.nixVersions.latest; # Per https://discourse.nixos.org/t/how-to-upgrade-nix-on-macos-with-home-manager/25147/4
     checkConfig = true;
     # nixPath = [
     #   { darwin-config = "$HOME/.nixpkgs/darwin-configuration.nix"; }
@@ -38,7 +38,7 @@ in
       "bash-prompt-prefix" = "(nix:$name)\040";
       "build-users-group" = "nixbld";
       "extra-nix-path" = "nixpkgs=flake:nixpkgs";
-      "experimental-features" = "nix-command flakes repl-flake";
+      "experimental-features" = "nix-command flakes";
       "auto-optimise-store" = true;
       "max-jobs" = "auto";
       "upgrade-nix-store-path-url" = "https://install.determinate.systems/nix-upgrade/stable/universal";
@@ -95,7 +95,7 @@ in
       go
       python313
       # haskell.compiler.ghc94 # ghc-9.4.5 (lts-21.3)
-      nodejs_21
+      nodejs_22
       nodePackages.pnpm
 
       # Formatters
@@ -114,6 +114,7 @@ in
       tbls # Tool for documenting sql databases
 
       # Data Store
+      duckdb
       clickhouse
       sqlite
 
@@ -145,13 +146,6 @@ in
       # Other
 
       # Mac OS Setup - Scarf Deps - https://www.notion.so/scarf/Mac-OS-setup-...
-      # darwin.libiconv
-      # libpqxx # - FIXME using homebrew for now
-      # pcre - FIXME using homebrew for now
-      # rdkafka - FIXME using homebrew for now
-      # rocksdb
-      # openssl_3_1
-      # tmux
       bitwarden-cli
       curlWithGnuTls
       wget
@@ -207,7 +201,6 @@ in
     dock = {
       autohide = true;
       orientation = "bottom";
-      # FIXME Coming in next nix-darwin release
       persistent-apps = [
         "/Applications/Firefox.app"
         "/Applications/Slack.app" # via brew cask
