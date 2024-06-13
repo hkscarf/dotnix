@@ -288,13 +288,13 @@
           version = "0.5.4";
           sha256 = "sha256-SMEqbpKYNck23zgULsdnsw4PS20XMPUpJ5kYh1fpd14=";
         }
-        {
-          # Documentation with Zeal (linux kapeli/Dash.app alternetive)
-          name = "vscode-dash"; # configure in vscode's settings.json through nix
-          publisher = "deerawan";
-          version = "2.4.0";
-          sha256 = "sha256-Yqn59ppNWQRMWGYVLLWofogds+4t/WRRtSSfomPWQy4=";
-        }
+        # {
+        #   # Documentation with Zeal (linux kapeli/Dash.app alternetive)
+        #   name = "vscode-dash"; # configure in vscode's settings.json through nix
+        #   publisher = "deerawan";
+        #   version = "2.4.0";
+        #   sha256 = "sha256-Yqn59ppNWQRMWGYVLLWofogds+4t/WRRtSSfomPWQy4=";
+        # }
         {
           # importing 📤 viewing 🔎 slicing 🔪 dicing 🎲 charting 📊 & exporting 📥 large .json array 
           # .arrow .avro .parquet data files, .config .env .properties .ini .yml configurations 
