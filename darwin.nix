@@ -98,11 +98,13 @@ in
       nodejs_22
       nodePackages.pnpm
 
-      # Formatters
+      # Linters + Formatters
       haskellPackages.cabal-fmt
+      hlint
       nixpkgs-fmt
       ormolu
-      treefmt
+      sqlfluff # SQL formatter that supports Postgres and ClickHouse
+      treefmt # Runs all formatters
 
       # Infra
       dhall
@@ -111,6 +113,7 @@ in
 
       # Data
       sqlcheck # SQL Anti-Pattern Linter
+      # python312Packages.sqlglot # SQL Parser (used in sqlmesh)
       tbls # Tool for documenting sql databases
 
       # Data Store

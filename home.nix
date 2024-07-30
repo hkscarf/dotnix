@@ -260,6 +260,13 @@
           sha256 = "sha256-8st8PJcqh132IZfL1qREfFpFw/esoG4KHxB3ubttH0o=";
         }
         {
+          # Avro Record Viewer (.avro schema + binary format)
+          name = "avro-viewer";
+          publisher = "yasunari89";
+          version = "0.1.8";
+          sha256 = "sha256-LTCTCdbf/M2q45M34HCQoDEoDeFiOPUOKVcOLXIU9J0=";
+        }
+        {
           # Automatically load environments with direnv
           name = "direnv";
           publisher = "mkhl";
