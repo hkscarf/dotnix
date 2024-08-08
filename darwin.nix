@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, pkgsUnstable, lib, config, ... }:
 let
   tie = import
     (pkgs.fetchFromGitHub
@@ -87,7 +87,13 @@ in
   environment.systemPackages = [
     tie # FIXME Bad CPU type in executable - For full logs, run 'nix log /nix/store/fj4w2qxg3fdfphcr6z1llv8y50499b3k-tie-20240321.drv'
     # vulnix FIXME Enable with overlay
-  ] ++ (with pkgs;
+  ] 
+  ++ (with pkgsUnstable;
+    [
+      tbls # Tool for documenting sql databases (postgres + clickhouse support)
+    ]
+  )
+    ++ (with pkgs;
     [
       config.nix.package # Per https://discourse.nixos.org/t/how-to-upgrade-nix-on-macos-with-home-manager/25147/4
 
@@ -114,7 +120,6 @@ in
       # Data
       sqlcheck # SQL Anti-Pattern Linter
       # python312Packages.sqlglot # SQL Parser (used in sqlmesh)
-      tbls # Tool for documenting sql databases
 
       # Data Store
       duckdb
