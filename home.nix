@@ -13,6 +13,7 @@
 
   home.sessionVariables = {
     EDITOR = "code";
+    DARWIN_LDFLAGS_SO_PREFIX="$out/lib/"; # ghostscript workaround https://github.com/NixOS/nixpkgs/issues/355377#issuecomment-2472096698
   };
 
   ##################################################################################################
@@ -212,7 +213,7 @@
     extensions =
       # TODO Requires stable and unstable nixpkgs
       # with pkgs-unstable.vscode-extensions; [
-      #   # Jinja Templating 
+      #   # Jinja Templating
       #   samuelcolvin.jinjahtml # *.{sql,js,etc}.jinja syntax highlighting)
       # ] ++
       (with pkgs.vscode-extensions; [
@@ -267,6 +268,13 @@
           sha256 = "sha256-LTCTCdbf/M2q45M34HCQoDEoDeFiOPUOKVcOLXIU9J0=";
         }
         {
+          # Tool for exploring and testing apis
+          name = "bruno";
+          publisher = "bruno-api-client";
+          version = "3.1.0";
+          sha256 = "sha256-jLQincxitnVCCeeaoX0SOuj5PJyR7CdOjK4Kl52ShlA=";
+        }
+        {
           # Automatically load environments with direnv
           name = "direnv";
           publisher = "mkhl";
@@ -303,8 +311,8 @@
         #   sha256 = "sha256-Yqn59ppNWQRMWGYVLLWofogds+4t/WRRtSSfomPWQy4=";
         # }
         {
-          # importing 📤 viewing 🔎 slicing 🔪 dicing 🎲 charting 📊 & exporting 📥 large .json array 
-          # .arrow .avro .parquet data files, .config .env .properties .ini .yml configurations 
+          # importing 📤 viewing 🔎 slicing 🔪 dicing 🎲 charting 📊 & exporting 📥 large .json array
+          # .arrow .avro .parquet data files, .config .env .properties .ini .yml configurations
           # files, .csv/.tsv & .xlsx/.xlsb Excel files and .md markdown tables
           name = "vscode-data-preview";
           publisher = "randomfractalsinc";

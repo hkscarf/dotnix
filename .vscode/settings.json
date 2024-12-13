@@ -1,0 +1,26 @@
+{
+  "window.zoomLevel": 0,
+
+  "window.commandCenter": false,
+  "workbench.layoutControl.enabled": false,
+  // Prevent VSCode from replacing tabs instead of opening new ones - https://stackoverflow.com/a/45431612
+  "workbench.editor.enablePreview": false,
+
+  // Per https://www.notion.so/scarf/Haskell-language-server-for-VSCode-aa3380ab15b940f49c984a2cc0763421?pvs=4
+  "haskell.manageHLS": "PATH",
+  "haskell.serverExecutablePath": "${workspaceFolder}/ls.sh",
+  "haskell.serverExtraArgs": "",
+
+  "files.associations": {
+    "cabal.project.local": "cabal",
+    "*.envrc.local": "sh",
+  },
+
+  "files.trimTrailingWhitespace": true,
+  "extensions.ignoreRecommendations": true,
+  "diffEditor.renderSideBySide": false,
+  // "workbench.editorAssociations":
+  //   {
+  //     "*.md": "vscode.markdown.preview.editor",
+  //   },
+}
